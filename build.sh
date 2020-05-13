@@ -1,6 +1,7 @@
 #!/bin/bash
 
 ###  FIX HERE VERSION IF NECESSARY  ###
+###  LINKS ARE AT THE AND OF SCRIPT  ###
 src_SDL2=SDL2-2.0.12
 src_SDL2_image=SDL2_image-2.0.5
 src_SDL2_mixer=SDL2_mixer-2.0.4
@@ -246,6 +247,8 @@ function build_SDL2_gfx
 
 function parseArgs
 {
+    if [[ "$1" == "" ]]; then usage; exit; fi 
+
     while [ "$1" != "" ]; do
     PARAM=`echo $1 | awk -F= '{print $1}'`
     VALUE=`echo $1 | awk -F= '{print $2}'`
@@ -262,7 +265,7 @@ function parseArgs
             API=$VALUE ;;            
         *)
             printf "$txtred ERROR: unknown parameter \"$PARAM\"\n $txtrst"
-            usage; exit 1 ;;
+            usage; exit ;;
     esac
     shift
     done
@@ -280,6 +283,8 @@ function usage
     printf "\n\n\t              Example of usage:"
     printf "\n\n\t ./build.sh --prefix=/home/user/build --ndkdir=/home/user/NDK --api=16 --arch=armeabi-v7a \n\n$txtrst"
 }
+
+#################################################################################
 
 parseArgs "$@"
 
