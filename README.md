@@ -6,7 +6,7 @@ Bash script to download and build:
 ##### SDL2_net
 ##### SDL2_ttf
 ##### SDL2_gfx
-for Android devices. Requires NDK only, no grandle or java, C/C++ only.  
+libraies for Android devices. Requires NDK only, no granlew or java, C/C++ only.  
 How it works. Script gets SDL projects from 
 <pre>
 https://www.libsdl.org/release/
@@ -41,6 +41,7 @@ To skip download phase you can get all archives manually and put in <PREFIX> fol
 also fix versions of archives in the build.sh if necessary.
 Here version of packages tested with build.sh:
 <pre>
+android-ndk-r16b
 android-ndk-r21b
 SDL2-2.0.12
 SDL2_image-2.0.5
