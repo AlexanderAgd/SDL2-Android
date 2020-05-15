@@ -253,11 +253,11 @@ function checkArch
         "x86") ;;
         "x86_64") ;;
         "all")
-            printf "\n$txtred Only one architecture build allowed per command!\n$txtrst"
+            printf "\n$txtred \"--arch=$1\" only one ABI build allowed per command!\n$txtrst"
             usage; exit ;;
         *)
-            printf "$txtred ERROR: unknown ABI \"$1\"\n"
-            printf "Available ABI:  armeabi-v7a  arm64-v8a  x86  x86_64 \n\n$txtrst"
+            printf "\n$txtred ERROR: Unknown ABI \"--arch=$1\"\n"
+            printf " Available ABI:  armeabi-v7a  arm64-v8a  x86  x86_64 \n\n$txtrst"
             usage; exit ;;
     esac
 }
