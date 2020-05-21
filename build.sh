@@ -23,7 +23,6 @@ INSTALL_DIR=$(pwd)
 ARCH="armeabi-v7a"
 API="16"
 MK_ADDON=""
-SED=""
 cp_opt=""
 
 function MESSAGE { printf "$txtgreen$1 $txtrst\n"; }
@@ -110,7 +109,7 @@ function build_SDL2_image
     DIR=$INSTALL_DIR/$src_SDL2_image
     if [[ -e $DIR/tmp.mk ]]; then mv -f $DIR/tmp.mk $DIR/Android.mk; fi
     cp -fva $DIR/Android.mk $DIR/tmp.mk
-    $SED -i "/(call my-dir)/a $MK_ADDON" $DIR/Android.mk
+    sed "/(call my-dir)/a $MK_ADDON" $DIR/Android.mk 1<> $DIR/Android.mk
 
     $NDK_DIR/ndk-build -C $DIR NDK_PROJECT_PATH=$NDK_DIR APP_BUILD_SCRIPT=$DIR/Android.mk \
         APP_PLATFORM=android-$API APP_ABI=$ARCH APP_ALLOW_MISSING_DEPS=true $NDK_OPTIONS \
@@ -132,7 +131,7 @@ function build_SDL2_mixer
     DIR=$INSTALL_DIR/$src_SDL2_mixer
     if [[ -e $DIR/tmp.mk ]]; then mv -f $DIR/tmp.mk $DIR/Android.mk; fi
     cp -fva $DIR/Android.mk $DIR/tmp.mk
-    $SED -i "/(call my-dir)/a $MK_ADDON" $DIR/Android.mk
+    sed "/(call my-dir)/a $MK_ADDON" $DIR/Android.mk 1<> $DIR/Android.mk
 
 	$NDK_DIR/ndk-build -C $DIR NDK_PROJECT_PATH=$NDK_DIR APP_BUILD_SCRIPT=$DIR/Android.mk \
         APP_PLATFORM=android-$API APP_ABI=$ARCH APP_ALLOW_MISSING_DEPS=true $NDK_OPTIONS \
@@ -154,7 +153,7 @@ function build_SDL2_net
     DIR=$INSTALL_DIR/$src_SDL2_net
     if [[ -e $DIR/tmp.mk ]]; then mv -f $DIR/tmp.mk $DIR/Android.mk; fi
     cp -fva $DIR/Android.mk $DIR/tmp.mk
-    $SED -i "/(call my-dir)/a $MK_ADDON" $DIR/Android.mk
+    sed "/(call my-dir)/a $MK_ADDON" $DIR/Android.mk 1<> $DIR/Android.mk
 
 	$NDK_DIR/ndk-build -C $DIR NDK_PROJECT_PATH=$NDK_DIR APP_BUILD_SCRIPT=$DIR/Android.mk \
         APP_PLATFORM=android-$API APP_ABI=$ARCH APP_ALLOW_MISSING_DEPS=true $NDK_OPTIONS \
@@ -176,7 +175,7 @@ function build_SDL2_ttf
     DIR=$INSTALL_DIR/$src_SDL2_ttf
     if [[ -e $DIR/tmp.mk ]]; then mv -f $DIR/tmp.mk $DIR/Android.mk; fi
     cp -fva $DIR/Android.mk $DIR/tmp.mk
-    $SED -i "/(call my-dir)/a $MK_ADDON" $DIR/Android.mk
+    sed "/(call my-dir)/a $MK_ADDON" $DIR/Android.mk 1<> $DIR/Android.mk
 
 	$NDK_DIR/ndk-build -C $DIR NDK_PROJECT_PATH=$NDK_DIR APP_BUILD_SCRIPT=$DIR/Android.mk \
         APP_PLATFORM=android-$API APP_ABI=$ARCH APP_ALLOW_MISSING_DEPS=true $NDK_OPTIONS \
@@ -204,7 +203,7 @@ function build_SDL2_gfx
     done
 
     echo "LOCAL_PATH := \$(call my-dir)" > $DIR/Android.mk
-    $SED -i "/(call my-dir)/a $MK_ADDON" $DIR/Android.mk
+    sed "/(call my-dir)/a $MK_ADDON" $DIR/Android.mk 1<> $DIR/Android.mk
     echo "include \$(CLEAR_VARS)" >> $DIR/Android.mk
     echo "LOCAL_MODULE := SDL2_gfx" >> $DIR/Android.mk
     echo "LOCAL_C_INCLUDES := \$(LOCAL_PATH)" >> $DIR/Android.mk
@@ -245,18 +244,9 @@ function osCommands
 {
    case "$(uname -s)" in
    Darwin)
-     cmd_gsed="$(which gsed)"
-     if [[ ! $cmd_gsed ]]; then
-        printf "$txtred\n    Please install gsed\n"
-        printf "\$ brew install gnu-sed\n"
-        printf "    and export PATH to gsed if necessary, sample command:\n"
-        printf "\$ export PATH=\"/usr/local/opt/gnu-sed/libexec/gnubin:\$PATH\"$txtrst\n\n"
-        exit;
-     fi
-     SED="gsed";
      cp_opt="-avf" ;;
    *)
-     SED="sed"; cp_opt="-avu" ;;
+     cp_opt="-avu" ;;
    esac
 }
 
