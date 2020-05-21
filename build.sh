@@ -305,15 +305,6 @@ function usage
 parseArgs "$@"
 osCommands
 
-     cmd_gsed="$(which gsed)"
-     if [[ ! $cmd_gsed ]]; then
-        printf "$txtred\n    Please install gsed\n"
-        printf "\$ brew install gnu-sed\n"
-        printf "    and export PATH to gsed if necessary, sample command:\n"
-        printf "\$ export PATH=\"/usr/local/opt/gnu-sed/libexec/gnubin:\$PATH\"$txtrst\n\n"
-        exit;
-     fi
-
 MESSAGE "Used \"NDK_OPTIONS\":\n$NDK_OPTIONS"
 
 NDK=$NDK_DIR/ndk-build
