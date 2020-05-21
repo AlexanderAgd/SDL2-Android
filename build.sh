@@ -109,7 +109,7 @@ function build_SDL2_image
     DIR=$INSTALL_DIR/$src_SDL2_image
     if [[ -e $DIR/tmp.mk ]]; then mv -f $DIR/tmp.mk $DIR/Android.mk; fi
     cp -fva $DIR/Android.mk $DIR/tmp.mk
-    sed "/(call my-dir)/a $MK_ADDON" $DIR/Android.mk 1<> $DIR/Android.mk
+    sed -e $'/(call my-dir)/a\\\n'"$MK_ADDON" $DIR/Android.mk 1<> $DIR/Android.mk
 
     $NDK_DIR/ndk-build -C $DIR NDK_PROJECT_PATH=$NDK_DIR APP_BUILD_SCRIPT=$DIR/Android.mk \
         APP_PLATFORM=android-$API APP_ABI=$ARCH APP_ALLOW_MISSING_DEPS=true $NDK_OPTIONS \
@@ -131,7 +131,7 @@ function build_SDL2_mixer
     DIR=$INSTALL_DIR/$src_SDL2_mixer
     if [[ -e $DIR/tmp.mk ]]; then mv -f $DIR/tmp.mk $DIR/Android.mk; fi
     cp -fva $DIR/Android.mk $DIR/tmp.mk
-    sed "/(call my-dir)/a $MK_ADDON" $DIR/Android.mk 1<> $DIR/Android.mk
+    sed -e $'/(call my-dir)/a\\\n'"$MK_ADDON" $DIR/Android.mk 1<> $DIR/Android.mk
 
 	$NDK_DIR/ndk-build -C $DIR NDK_PROJECT_PATH=$NDK_DIR APP_BUILD_SCRIPT=$DIR/Android.mk \
         APP_PLATFORM=android-$API APP_ABI=$ARCH APP_ALLOW_MISSING_DEPS=true $NDK_OPTIONS \
@@ -153,7 +153,7 @@ function build_SDL2_net
     DIR=$INSTALL_DIR/$src_SDL2_net
     if [[ -e $DIR/tmp.mk ]]; then mv -f $DIR/tmp.mk $DIR/Android.mk; fi
     cp -fva $DIR/Android.mk $DIR/tmp.mk
-    sed "/(call my-dir)/a $MK_ADDON" $DIR/Android.mk 1<> $DIR/Android.mk
+    sed -e $'/(call my-dir)/a\\\n'"$MK_ADDON" $DIR/Android.mk 1<> $DIR/Android.mk
 
 	$NDK_DIR/ndk-build -C $DIR NDK_PROJECT_PATH=$NDK_DIR APP_BUILD_SCRIPT=$DIR/Android.mk \
         APP_PLATFORM=android-$API APP_ABI=$ARCH APP_ALLOW_MISSING_DEPS=true $NDK_OPTIONS \
@@ -175,7 +175,7 @@ function build_SDL2_ttf
     DIR=$INSTALL_DIR/$src_SDL2_ttf
     if [[ -e $DIR/tmp.mk ]]; then mv -f $DIR/tmp.mk $DIR/Android.mk; fi
     cp -fva $DIR/Android.mk $DIR/tmp.mk
-    sed "/(call my-dir)/a $MK_ADDON" $DIR/Android.mk 1<> $DIR/Android.mk
+    sed -e $'/(call my-dir)/a\\\n'"$MK_ADDON" $DIR/Android.mk 1<> $DIR/Android.mk
 
 	$NDK_DIR/ndk-build -C $DIR NDK_PROJECT_PATH=$NDK_DIR APP_BUILD_SCRIPT=$DIR/Android.mk \
         APP_PLATFORM=android-$API APP_ABI=$ARCH APP_ALLOW_MISSING_DEPS=true $NDK_OPTIONS \
@@ -203,7 +203,7 @@ function build_SDL2_gfx
     done
 
     echo "LOCAL_PATH := \$(call my-dir)" > $DIR/Android.mk
-    sed "/(call my-dir)/a $MK_ADDON" $DIR/Android.mk 1<> $DIR/Android.mk
+    sed -e $'/(call my-dir)/a\\\n'"$MK_ADDON" $DIR/Android.mk 1<> $DIR/Android.mk
     echo "include \$(CLEAR_VARS)" >> $DIR/Android.mk
     echo "LOCAL_MODULE := SDL2_gfx" >> $DIR/Android.mk
     echo "LOCAL_C_INCLUDES := \$(LOCAL_PATH)" >> $DIR/Android.mk
@@ -331,10 +331,10 @@ if [[ ! -e $INSTALL_DIR/liball/$ARCH ]]; then
     echo $info > $INSTALL_DIR/liball/INFO
 fi
 
-MK_ADDON+="include \$(CLEAR_VARS)\n"
-MK_ADDON+="LOCAL_MODULE := SDL2\n"
-MK_ADDON+="LOCAL_SRC_FILES := $INSTALL_DIR/lib/$ARCH/libSDL2.so\n"
-MK_ADDON+="LOCAL_EXPORT_C_INCLUDES += $INSTALL_DIR/$src_SDL2/include\n"
+MK_ADDON+=$'include $(CLEAR_VARS)\\\n'
+MK_ADDON+=$'LOCAL_MODULE := SDL2\\\n'
+MK_ADDON+=$'LOCAL_SRC_FILES := '"$INSTALL_DIR/lib/$ARCH"$'/libSDL2.so\\\n'
+MK_ADDON+=$'LOCAL_EXPORT_C_INCLUDES += '"$INSTALL_DIR/$src_SDL2/include"$'\\\n'
 MK_ADDON+="include \$(PREBUILT_SHARED_LIBRARY)"
 
 pushd $INSTALL_DIR      ### FIX URL HERE IF DOWNLOAD FAILS ### 
