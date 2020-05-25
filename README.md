@@ -50,5 +50,8 @@ SDL2_net-2.0.1
 SDL2_ttf-2.0.15
 SDL2_gfx-1.0.4
 </pre>
-
-
+Download ready libraries with minimal support android-16:  
+[https://github.com/AlexanderAgd/SDL2-Android/releases](https://github.com/AlexanderAgd/SDL2-Android/releases)  
+Build an example with SDL2:  
+[https://github.com/AlexanderAgd/SDL2-Android-Example](https://github.com/AlexanderAgd/SDL2-Android-Example)  
+Enjoy :)  
